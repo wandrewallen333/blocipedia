@@ -40,3 +40,15 @@ gem 'thor', '0.19.1'
 group :development do
   gem 'listen', '~> 3.0.5'
 end
+
+# Use Rspec as the testing framework
+ group :development, :test do
+   gem 'rspec-rails', '~> 3.0'
+   gem 'rails-controller-testing'
+ end
+
+# Use sass for CSS frameworks
+ gem 'bootstrap-sass'
+
+# Use devise for authentication
+gem 'devise' 
