@@ -51,4 +51,7 @@ end
  gem 'bootstrap-sass'
 
 # Use devise for authentication
-gem 'devise' 
+gem 'devise'
+
+#  Use Pundit for role authorization
+gem 'pundit' 
