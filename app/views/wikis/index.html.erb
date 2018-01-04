@@ -8,6 +8,7 @@
   </div>
 <% end %>
 
+<<<<<<< HEAD
 <% @wikis.each do |wiki| %>
   <div class="media">
     <div class="media-body">
@@ -21,3 +22,14 @@
     </div>
   </div>
 <% end %>
+=======
+ <% @wikis.each do |wiki| %>
+     <div class="media">
+         <div class="media-body">
+             <h4 class="media-heading">
+                 <%= link_to markdown(wiki.title), wiki %>
+             </h4>
+         </div>
+     </div>
+ <% end %>
+>>>>>>> blocipedia-9-markdown
