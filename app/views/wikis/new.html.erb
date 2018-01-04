@@ -3,11 +3,24 @@
 
  <div class="row">
    <div class="col-md-4">
-     <p>Guidelines for Wikis</p>
+     <p>Markdown Guidelines</p>
      <ul>
-       <li>Make sure it rhymes.</li>
-       <li>Don't use the letter "A".</li>
-       <li>The incessant use of hashtags will get you banned.</li>
+       <li><b>Headers</b>
+         <%= markdown("```# Heading 1```") %>
+         <%= markdown("```## Heading 2```") %>
+       </li>
+       <li><b>Emphasis</b>
+         <%= markdown("```*italic* and **bold**```") %>
+       </li>
+       <li><b>Blockquotes</b>
+         <%= markdown("```> quote```") %>
+       </li>
+       <li><b>Links</b>
+         <%= markdown("```[linked text](url)```") %>
+       </li>
+       <li><b>Images</b>
+         <%= markdown("```![Image Name](url)```") %>
+       </li>
      </ul>
    </div>
    <div class="col-md-8">
@@ -26,4 +39,4 @@
      <% end %>
    </div>
  </div>
- <% end %> 
+ <% end %>
