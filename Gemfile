@@ -54,4 +54,6 @@ end
 gem 'devise'
 
 #  Use Pundit for role authorization
-gem 'pundit' 
+gem 'pundit'
+
+gem 'figaro', '1.0' 
