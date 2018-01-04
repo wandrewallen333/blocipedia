@@ -58,4 +58,6 @@ gem 'pundit'
 
 gem 'figaro', '1.0'
 
-gem 'faker' 
+gem 'faker'
+
+gem 'stripe' 
