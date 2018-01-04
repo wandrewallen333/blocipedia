@@ -8,7 +8,7 @@
   </div>
 <% end %>
 
-<<<<<<< HEAD
+
 <% @wikis.each do |wiki| %>
   <div class="media">
     <div class="media-body">
@@ -18,11 +18,12 @@
         <% else %>
           <%= link_to wiki.title, wiki %>
         <% end %>
+        <small><%= time_ago_in_words(wiki.created_at) %> ago</small>
       </h4>
     </div>
   </div>
 <% end %>
-=======
+
  <% @wikis.each do |wiki| %>
      <div class="media">
          <div class="media-body">
@@ -32,4 +33,3 @@
          </div>
      </div>
  <% end %>
->>>>>>> blocipedia-9-markdown
