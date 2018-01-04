@@ -4,5 +4,7 @@ class Wiki < ApplicationRecord
 
   def publicize
     update_attribute(:private, false)
-  end 
+  end
+
+  default_scope { order('created_at DESC') }
 end
