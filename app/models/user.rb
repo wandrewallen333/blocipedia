@@ -6,11 +6,14 @@ class User < ApplicationRecord
 
   has_many :wikis, dependent: :destroy
 
+  has_many :collaborators
+  has_many :wiki_collabs, source: 'wiki', through: :collaborators
+
   #before_save { self.role ||= :standard }
 
   def going_public
     self.wikis.each { |wiki| puts wiki.publicize }
-  end 
+  end
 
   enum role: [:standard, :premium, :admin]
 end

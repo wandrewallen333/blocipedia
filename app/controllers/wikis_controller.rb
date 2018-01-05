@@ -1,80 +1,66 @@
-include ApplicationHelper
 class WikisController < ApplicationController
   def index
-    #if current_user.admin? || current_user.premium?
-      @wikis = Wiki.all
-    #else
-      #Wiki.where(private: false)
-    # end
+    # @user = User.find(session[:user_id])
+    @user = current_user
+    @wikis = Wiki.where("private=? OR private=?", false, nil)
   end
 
   def show
-    @wiki = Wiki.find(params[:id])
-    unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
-      flash[:alert] = "You must have a subscription to view private topics."
-      if current_user
-        redirect_to new_charge_path
-      else
-        redirect_to new_user_registration_path
-      end
-    end
+    @wiki = Wiki.friendly.find(params[:id])
+    @users = User.find_by(id: params[:id])
+    @collaborators = @wiki.collaborators
   end
 
   def new
     @wiki = Wiki.new
-    authorize @wiki
   end
 
   def create
-    @wiki = Wiki.new
-    @wiki.title = params[:wiki][:title]
-    @wiki.body = params[:wiki][:body]
-    @wiki.private = params[:wiki][:private]
-    @wiki.user = current_user
-    authorize @wiki
-
+    @wiki = current_user.wikis.build(wiki_params)
 
     if @wiki.save
       flash[:notice] = "Wiki was saved."
-      redirect_to @wiki
+      redirect_to wikis_path
     else
-      flash.now[:alert] = "There was an error saving the Wiki. Please try again."
+      flash.now[:alert] = "There was an error saving your wiki, please try again."
       render :new
     end
   end
 
   def edit
-    @wiki = Wiki.find(params[:id])
-    authorize @wiki
+    @wiki = Wiki.friendly.find(params[:id])
+    @users = User.where.not(id: current_user.id)
+    @collaborators = @wiki.collaborators
   end
 
   def update
-     @wiki = Wiki.find(params[:id])
-     @wiki.title = params[:wiki][:title]
-     @wiki.body = params[:wiki][:body]
-     @wiki.private = params[:wiki][:private]
-     @wiki.user = current_user
-     authorize @wiki
+    @wiki = Wiki.friendly.find(params[:id])
 
-     if @wiki.save
-       flash[:notice] = "Wiki was updated successfully."
-       redirect_to @wiki
-     else
-       flash.now[:alert] = "There was an error saving the wiki. Please try again."
-       render :edit
-     end
-   end
+    if @wiki.update_attributes(wiki_params) #@wiki.save
+      flash[:notice] = "Wiki was updated."
+      redirect_to @wiki
+    else
+      flash.now[:alert] = "There was an error saving the wiki. Please try again."
+      render :edit
+    end
+  end
 
-   def destroy
-     @wiki = Wiki.find(params[:id])
-     authorize @wiki
+  def destroy
+    @wiki = Wiki.friendly.find(params[:id])
+    authorize @wiki
 
-     if @wiki.destroy
-       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
-       redirect_to wikis_path
-     else
-       flash.now[:alert] = "There was an error deleting the wiki."
-       render :show
-     end
-   end
+    if @wiki.destroy
+      flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
+      redirect_to wikis_path
+    else
+      flash.now[:alert] = "There was an error deleting the post."
+      render :show
+    end
+  end
+
+  private
+
+  def wiki_params
+    params.require(:wiki).permit(:title, :body, :private)
+  end
 end

@@ -1,50 +1,38 @@
-<% if user_is_authorized_to_update? %>
-<h1>Edit Wiki</h1>
+<h1>Edit Public Wiki</h1>
 
- <div class="row">
-   <div class="col-md-4">
-     <p>Markdown Guidelines</p>
-     <ul>
-       <li><b>Headers</b>
-         <%= markdown("```# Heading 1```") %>
-         <%= markdown("```## Heading 2```") %>
-       </li>
-       <li><b>Emphasis</b>
-         <%= markdown("```*italic* and **bold**```") %>
-       </li>
-       <li><b>Blockquotes</b>
-         <%= markdown("```> quote```") %>
-       </li>
-       <li><b>Links</b>
-         <%= markdown("```[linked text](url)```") %>
-       </li>
-       <li><b>Images</b>
-         <%= markdown("```![Image Name](url)```") %>
-       </li>
-     </ul>
-   </div>
-   
-   <div class="col-md-8">
-     <%= form_for @wiki do |f| %>
-       <div class="form-group">
-         <%= f.label :title %>
-         <%= f.text_field :title, class: 'form-control', placeholder: "Enter Wiki title" %>
-       </div>
-       <div class="form-group">
-         <%= f.label :body %>
-         <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter Wiki body" %>
-       </div>
-      <% if user_is_authorized_to_create? %>
-        <div class="form-group">
-            <%= f.label :private, class: 'checkbox' do %>
-                <%= f.check_box :private %> Private wiki
-            <% end %>
-        </div>
-      <% end %>       
-       <div class="form-group">
-         <%= f.submit "Save", class: 'btn btn-success' %>
-       </div>
+<div class="row">
+  <div class="col-md-4">
+    <p>Guidelines for wikis</p>
+    <ul>
+      <li>Remember this is a public wiki.</li>
+      <li>Don't use the letter "A".</li>
+      <li>The incessant use of hashtags will get you banned.</li>
+    </ul>
+  </div>
+  <div class="col-md-8">
+
+    <%= form_for @wiki do |f| %>
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
+
+      <%= f.label :body %>
+      <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter wiki body" %>
+
+       <% if current_user.admin? || (current_user.premium? && current_user.id == @wiki.user_id) %>
+         <%= f.label :private, class: 'checkbox' do %>
+
+          <%= f.check_box :private %> Private wiki
+        <% end %>
+       <% end %>
+
+      <%= f.submit "Save", class: 'btn btn-success' %>
      <% end %>
+
+
+    collaborators: <%= @wiki.collaborators.count %>
+
+    <%= render partial: 'collaborators/form', locals: { wiki: @wiki } %>
+
+
    </div>
- </div>
- <% end %>
+</div>
