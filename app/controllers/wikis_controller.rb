@@ -2,10 +2,17 @@ include ApplicationHelper
 class WikisController < ApplicationController
   def index
     #if current_user.admin? || current_user.premium?
-      @wikis = Wiki.all
+      #@wikis = Wiki.all
     #else
       #Wiki.where(private: false)
     # end
+
+    if current_user == nil
+   @wikis = Wiki.visible_to_all
+ else
+
+     @wikis = policy_scope(Wiki)
+ end
   end
 
   def show

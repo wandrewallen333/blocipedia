@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
-  get 'collaborator/index'
 
-  get 'collaborator/create'
 
-  get 'collaborator/destroy'
-
+  resources :collaborators
   resources :wikis
 
   resources :charges, only: [:new, :create]
