@@ -8,7 +8,7 @@ class WikisController < ApplicationController
     # end
 
     if current_user == nil
-   @wikis = Wiki.visible_to_all
+   @wikis = Wiki.all
  else
 
      @wikis = policy_scope(Wiki)
